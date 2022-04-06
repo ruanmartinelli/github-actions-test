@@ -1,0 +1,25 @@
+name: ci
+
+on:
+  pull_request:
+    types: [closed]
+  issue_comment:
+    types: [created]
+
+jobs:
+  pr-comment:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event.issue.pull_request && github.event.action != 'closed'}}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "$GITHUB_CONTEXT"
+
+  pr-close:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event.action == 'closed' }}
+
+    steps:
+      - run: echo "$GITHUB_CONTEXT"
