@@ -34,7 +34,7 @@ jobs:
             
             console.log(comments);
 
-            if(comments && comments?.find(c => c.body === message)) return;
+            if(comments && comments.length && comments.find(c => c.body === message)) return;
 
             github.issues.createComment({ issue_number, owner, repo, body: message });
 
