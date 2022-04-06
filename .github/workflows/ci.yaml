@@ -23,7 +23,7 @@ jobs:
           script: |
             const { MESSAGE: message } = process.env;
             const { repo: { owner, repo }  } = context;
-            const comments = await github.issues.listComments({ owner, repo, issue_number: 4 })
+            const { data: comments } = await github.issues.listComments({ owner, repo, issue_number: 4 })
             
             console.log(comments);
 
