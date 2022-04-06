@@ -22,4 +22,5 @@ jobs:
     if: ${{ github.event.action == 'closed' }}
 
     steps:
+      - uses: actions/checkout@v2
       - run: echo "$GITHUB_CONTEXT"
