@@ -10,7 +10,7 @@ jobs:
   pr-comment:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event.issue.pull_request && github.event.action != 'closed'}}
+    if: ${{ github.event.issue.pull_request && github.event.action != 'closed' && github.event.comment.body === 'preview' }}
 
     steps:
       - uses: actions/checkout@v2
