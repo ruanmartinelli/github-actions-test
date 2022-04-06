@@ -26,7 +26,6 @@ jobs:
             const { data: comments } = await github.issues.listComments({ owner, repo, issue_number: 4 })
             
             console.log(comments);
-
             if(comments && comments.length && comments.find(c => c.body === message)) return;
 
             github.issues.createComment({ issue_number: 4, owner, repo, body: message });
