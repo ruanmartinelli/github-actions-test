@@ -15,12 +15,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: hmarr/debug-action@v2
-      - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v1
+      # - name: Comment PR
+      #   uses: thollander/actions-comment-pull-request@v1
+      #   with:
+      #     message: 'Hey there!!'
+      #     pr_number: ${{ github.event.issue.number }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Comment PR"
+        uses: actions/github-script@0.3.0
+        if: github.event_name == 'pull_request'
+        env:
+          MESSAGE: "Hello!!"
         with:
-          message: 'Hey there!!'
-          pr_number: ${{ github.event.issue.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { MESSAGE: message } = process.env;
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            const comments = await github.issues.listComments({ owner, repo, issue_number })
+
+            if(comments && comments.find(c => c.body === message)) return;
+
+            github.issues.createComment({ issue_number, owner, repo, body: message });
 
   pr-close:
     runs-on: ubuntu-latest
